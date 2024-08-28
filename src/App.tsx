@@ -1,9 +1,13 @@
 import './App.css'
+import { Button } from 'primereact/button';
 
 function App() {
   return (
     <>
-      <h1 className='bg-orange-400'>Começando os trabalhos</h1>
+      <span className='border-4 text-lg text-white border-white font-bold m-3 rounded-xl p-8 sm flex justify-center items-center'>Começando os trabalhos</span>
+      <Button 
+        label="Primary" 
+        outlined />
     </>
   )
 }
