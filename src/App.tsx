@@ -1,14 +1,23 @@
 import './App.css'
 import AppRoutes from './Routes'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Link } from 'react-router-dom'
 
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <span className='border-4 text-lg text-white border-white font-bold m-3 rounded-xl p-8 sm flex justify-center items-center'>Começando os trabalhos</span>
-        <AppRoutes/>
+        <nav className='inline-flex justify-center align-middle w-full'>
+          <Link className='p-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l' to="/">Home</Link>
+          <Link className='p-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r' to="/Departamentos">Departamentos</Link>
+        </nav>
+
+        <div className='w-full max-w-[calc(100vw-16px)] md:max-w-[1280px] mx-auto mt-6'>
+          <div className='grid grid-cols-12 gap-1'>
+          <AppRoutes/>
+          </div>
+        </div>
+
       </BrowserRouter>
     </>
   )
