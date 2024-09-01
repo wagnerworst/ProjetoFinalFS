@@ -1,7 +1,7 @@
-
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Link } from 'react-router-dom';
 
 
 const Departamentos = () => {
@@ -30,16 +30,19 @@ const Departamentos = () => {
 
   return(
     <>
-      <div className="col-span-12">
-            <h1>Listagem de Departamentos</h1>
+      <div className="col-span-11 text-2xl">
+        <h1>Listagem de Departamentos</h1>
       </div>
+      <Link to={"/departamentos/new"}>
+        <Button className='col-span-1 float-end' label="Novo" icon="pi pi-plus" size="small" />
+      </Link>
+      <br />
 
       <div className='col-span-12'>
         <DataTable value={departamentos} stripedRows>
           <Column field="nome" header="Departamento" sortable style={{ width: '80%' }}></Column>
           <Column field="sigla" header="Sigla" sortable></Column>
           <Column header="Ação" body={bodyAcao}></Column>
-
         </DataTable>
       </div>
     </> 
