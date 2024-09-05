@@ -1,7 +1,7 @@
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Departamentos = () => {
@@ -19,6 +19,7 @@ const Departamentos = () => {
     }
   ]
 
+  const navigate = useNavigate();
   const bodyAcao = () => {
     return(
       <>
@@ -30,12 +31,12 @@ const Departamentos = () => {
 
   return(
     <>
-      <div className="col-span-11 text-2xl">
+      <div className="col-span-11 text-2xl flex items-center">
         <h1>Listagem de Departamentos</h1>
       </div>
-      <Link to={"/departamentos/new"}>
-        <Button className='col-span-1 float-end' label="Novo" icon="pi pi-plus" size="small" />
-      </Link>
+      <Button className='col-span-1 float-end' label="Novo" icon="pi pi-plus" size="small" 
+      onClick={() => {navigate("/departamentos/new")}}
+      />
       <br />
 
       <div className='col-span-12'>

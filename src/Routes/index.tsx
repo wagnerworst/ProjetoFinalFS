@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Departamentos from '../Pages/Departamentos/Listagem';
-import FormDepartamentos from '../Pages/Departamentos/Cadastro';
+import FormDepartamentos from '../Pages/Departamentos/Forms';
 
 const AppRoutes = () => {
   return(

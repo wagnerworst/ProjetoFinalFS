@@ -2,9 +2,10 @@ import { InputText } from 'primereact/inputtext';
 import { FloatLabel } from 'primereact/floatlabel';
 import { useState } from 'react';
 import { Button } from 'primereact/button';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const FormDepartamentos = () => {
+  const navigate = useNavigate();
   const [valueNome, setValueNome] = useState("");
   const [valueSigla, setValueSigla] = useState("");
 
@@ -31,12 +32,13 @@ const FormDepartamentos = () => {
 
         <div className='w-full flex justify-end'>
           <div className='flex gap-1'>
-            <Link to={"/Departamentos"}>
-              <Button icon="pi pi-save" aria-label="Filter" label="Salvar"/>
-            </Link>
-            <Link to={"/Departamentos"}>
-              <Button icon="pi pi-times" aria-label="Filter" label="Cancelar" severity='danger'/>
-            </Link>
+            <Button icon="pi pi-save" aria-label="Filter" label="Salvar"
+            onClick={() =>{navigate("/Departamentos")}}
+            />
+            <Button 
+            icon="pi pi-times" aria-label="Filter" label="Cancelar" severity='danger'
+            onClick={() => {navigate("/Departamentos")}}
+            />
           </div>
         </div>
 
