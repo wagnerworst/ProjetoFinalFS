@@ -2,23 +2,20 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { useNavigate } from 'react-router-dom';
+import listaDepartamentos from '../../../Services/Departamentos/listaDepartamentos';
+import { useState, useEffect } from 'react';
 
 
 const Departamentos = () => {
 
-  const departamentos = [
+  const [loadTable, setLoadTable] = useState(true);
+  const [departamentos, setDepartamentos] = useState();
+  useEffect(() => {
+    if(!departamentos)
     {
-      id_departamento: 1,
-      nome: 'Recursos Humanos',
-      sigla: 'RH'
-    },
-    {
-      id_departamento: 2,
-      nome: 'Tecnologia da Informação',
-      sigla: 'TI'
+      listaDepartamentos({ setDepartamentos, setLoadTable });
     }
-  ]
-
+  }, [departamentos]);
   const navigate = useNavigate();
   const bodyAcao = () => {
     return(
@@ -28,6 +25,7 @@ const Departamentos = () => {
       </>
     )
   };
+ 
 
   return(
     <>
@@ -40,7 +38,7 @@ const Departamentos = () => {
       <br />
 
       <div className='col-span-12'>
-        <DataTable value={departamentos} stripedRows>
+        <DataTable value={departamentos} stripedRows loading={loadTable}>
           <Column field="nome" header="Departamento" sortable style={{ width: '80%' }}></Column>
           <Column field="sigla" header="Sigla" sortable></Column>
           <Column header="Ação" body={bodyAcao}></Column>
