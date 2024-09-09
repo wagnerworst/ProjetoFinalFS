@@ -1,8 +1,10 @@
 import { InputText } from 'primereact/inputtext';
+import { Message } from 'primereact/message';
 import { FloatLabel } from 'primereact/floatlabel';
 import { useState } from 'react';
 import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
+import insereDepartamentos from '../../../Services/Departamentos/insereDepartamentos';
 
 const FormDepartamentos = () => {
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ const FormDepartamentos = () => {
   const [valueSigla, setValueSigla] = useState("");
   const [erroValueNome, setErroValueNome] = useState(false);
   const [erroValueSigla, setErroValueSigla] = useState(false);
+  const [erroAPI, setErroAPI] = useState('')
 
   const validaFormulario = () => {
     setErroValueNome(false);
@@ -33,7 +36,7 @@ const FormDepartamentos = () => {
       <h1 className='col-span-12 text-2xl mb-5'>
         Cadastrar novo departamento
       </h1>
-      <form action="POST" className='col-span-12 flex flex-col gap-1'>
+      <div className='col-span-12 flex flex-col gap-1'>
         <div className='flex w-full gap-1'>
           <div className='w-2/3'>
             <FloatLabel>
@@ -60,10 +63,24 @@ const FormDepartamentos = () => {
         <div className='w-full flex justify-end'>
           <div className='flex gap-1'>
             <Button icon="pi pi-save" aria-label="Filter" label="Salvar"
-            onClick={() =>{
+            onClick={async () =>{
               if(validaFormulario()){
-                
-                navigate("/Departamentos")
+                try
+                {
+                  await insereDepartamentos(
+                    {
+                      "nome": valueNome,
+                      "sigla": valueSigla
+                    }
+                  )
+                  navigate("/departamentos")
+                }
+                catch(e : any)
+                {
+                  if(e.response?.data?.message){
+                    setErroAPI(e.response.data.message)
+                  }
+                }
               }
             }}
             />
@@ -73,7 +90,10 @@ const FormDepartamentos = () => {
             />
           </div>
         </div>
-      </form>
+      </div>
+      <div className='col-span-12' hidden={erroAPI === ''}>
+        <Message text={erroAPI} className='w-full' severity='error' />
+      </div>
     </>
   )
 }

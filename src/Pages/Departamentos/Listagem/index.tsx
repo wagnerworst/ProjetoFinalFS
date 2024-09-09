@@ -10,12 +10,14 @@ const Departamentos = () => {
 
   const [loadTable, setLoadTable] = useState(true);
   const [departamentos, setDepartamentos] = useState();
+  //Alimenta o state Departamento com o axios quando ele ainda estiver vazio
   useEffect(() => {
     if(!departamentos)
     {
       listaDepartamentos({ setDepartamentos, setLoadTable });
     }
   }, [departamentos]);
+
   const navigate = useNavigate();
   const bodyAcao = () => {
     return(
