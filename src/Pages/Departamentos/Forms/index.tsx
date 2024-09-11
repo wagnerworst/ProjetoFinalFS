@@ -1,18 +1,34 @@
 import { InputText } from 'primereact/inputtext';
 import { Message } from 'primereact/message';
 import { FloatLabel } from 'primereact/floatlabel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'primereact/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import insereDepartamentos from '../../../Services/Departamentos/insereDepartamentos';
+import { putDepartamento, getDepartamento } from '../../../Services/Departamentos/editaDepartamentos';
 
 const FormDepartamentos = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [valueNome, setValueNome] = useState("");
   const [valueSigla, setValueSigla] = useState("");
   const [erroValueNome, setErroValueNome] = useState(false);
   const [erroValueSigla, setErroValueSigla] = useState(false);
-  const [erroAPI, setErroAPI] = useState('')
+  const [erroAPI, setErroAPI] = useState('');
+  const titulo = id ? "Edição de Departamentos" : "Cadastro de Departamentos";
+
+  useEffect(() => {
+    const buscaDados = async () => {
+      if(id)
+      {
+        const result = await getDepartamento(id);
+        console.log(result.data[0].nome);
+        setErroValueNome (result.data[0].nome);
+        setErroValueSigla (result.data[0].sigla);
+      }
+    }
+    buscaDados()
+  },[])
 
   const validaFormulario = () => {
     setErroValueNome(false);
@@ -28,13 +44,13 @@ const FormDepartamentos = () => {
       return false;
     }
 
-    return true
+    return true;
   }
 
   return (
     <>
       <h1 className='col-span-12 text-2xl mb-5'>
-        Cadastrar novo departamento
+        {titulo}
       </h1>
       <div className='col-span-12 flex flex-col gap-1'>
         <div className='flex w-full gap-1'>
@@ -67,12 +83,25 @@ const FormDepartamentos = () => {
               if(validaFormulario()){
                 try
                 {
-                  await insereDepartamentos(
-                    {
-                      "nome": valueNome,
-                      "sigla": valueSigla
-                    }
-                  )
+                  if (!id)
+                  {
+                    await insereDepartamentos(
+                      {
+                        "nome": valueNome,
+                        "sigla": valueSigla
+                      }
+                    )
+                  }
+                  else
+                  {
+                    await putDepartamento(
+                      {
+                        "id": id,
+                        "nome": valueNome,
+                        "sigla": valueSigla
+                      }
+                    )
+                  }
                   navigate("/departamentos")
                 }
                 catch(e : any)
